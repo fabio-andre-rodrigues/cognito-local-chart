@@ -28,9 +28,8 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       volumes:
-        - name: cognito-pv-storage           
-          configMap:
-            name: {{ .Chart.Name }}-cm
+        - name: cognito-volume-empty           
+          emptyDir: {}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -57,7 +56,7 @@ spec:
             failureThreshold: 10
           volumeMounts:
             - mountPath: "/app/.cognito"
-              name: cognito-pv-storage
+              name: cognito-volume-empty
               readOnly: false
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
